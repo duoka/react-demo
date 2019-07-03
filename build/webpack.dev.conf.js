@@ -1,3 +1,4 @@
+const config = require('../config');
 const path = require('path');
 const merge = require('webpack-merge');
 const baseWebpackConfig = require('./webpack.base.conf.js');
@@ -7,13 +8,11 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = merge(baseWebpackConfig, {
   mode: 'development',
-  output: {
-    filename: "js/[name].[hash:16].js",
-  },
+  devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'src/index.html',
-      inject: 'body',
+      template: config.dev.index,
+      inject: true,
       minify: {
         html5: true
       },
@@ -28,7 +27,8 @@ module.exports = merge(baseWebpackConfig, {
     }),
   ],
   devServer: {
-    port: '8080',
+    host: config.dev.host,
+    port: config.dev.port,
     contentBase: path.join(__dirname, '../src'),
     compress: true,
     historyApiFallback: true,

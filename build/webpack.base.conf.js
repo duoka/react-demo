@@ -1,9 +1,7 @@
 const path = require('path');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const config=require('../config');
 
-const DIST_PATH = path.resolve(__dirname, '../dist');
 const SRC_PATH  = path.resolve(__dirname, '../src');
 
 module.exports = {
@@ -14,8 +12,11 @@ module.exports = {
   },
   // 出口
   output: {
-    filename: "js/bundle.js",
-    path: DIST_PATH
+    path: config.pro.assetsRoot,
+    filename: '[name].js',
+    publicPath: process.env.NODE_ENV === 'production'
+      ? config.pro.assetsPublicPath
+      : config.dev.assetsPublicPath
   },
   module: {
     rules: [
@@ -35,7 +36,7 @@ module.exports = {
             loader: 'css-loader',
             options: {
               modules: true,
-              localIdentName: '[local]__[hash:7]'
+              localIdentName: '[path][local]__[hash:7]'
             }
           },
           {
@@ -52,7 +53,7 @@ module.exports = {
             loader: 'css-loader',
             options: {
               modules: true,
-              localIdentName: '[local]__[hash:7]'
+              localIdentName: '[path][local]__[hash:7]'
             }
           },
           {
@@ -91,40 +92,4 @@ module.exports = {
       },
     ]
   },
-  // 抽离公共模块
-  optimization: {
-    minimizer: [
-      // 压缩js
-      new UglifyJSPlugin(),
-      // 压缩css
-      new OptimizeCSSAssetsPlugin({
-        cssProcessorOptions: true
-            ? {
-              map: { inline: false }
-            }
-            : {}
-      })
-    ],
-    splitChunks: {
-      chunks: "all",
-      minChunks: 1,
-      // 抽离模块减少加载时间
-      cacheGroups: {
-        framework: {
-          priority: 200,
-          test: "framework",
-          name: "framework",
-          enforce: true,
-          reuseExistingChunk: true
-        },
-        vendor: {
-          priority: 10,
-          test: /node_modules/,
-          name: "vendor",
-          enforce: true,
-          reuseExistingChunk: true
-        }
-      }
-    }
-  }
 };
