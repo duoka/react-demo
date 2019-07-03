@@ -18,5 +18,10 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     index: path.resolve(__dirname, '../src/index.html'),
+    // gzip压缩
+    productionGzip: true,
+    productionGzipExtensions: ['js', 'css'],
+    // bundle分析工具 yarn run
+    bundleAnalyzerReport: process.env.npm_config_report
   }
 };

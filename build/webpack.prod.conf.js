@@ -8,7 +8,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
-module.exports = merge(webpackBaseConfig, {
+const proConfig = merge(webpackBaseConfig, {
   mode: 'production',
   output: {
     path: config.pro.assetsRoot,
@@ -73,3 +73,30 @@ module.exports = merge(webpackBaseConfig, {
     }),
   ]
 });
+
+// 压缩文件
+if (config.pro.productionGzip) {
+  const CompressionWebpackPlugin = require('compression-webpack-plugin')
+
+  proConfig.plugins.push(
+    new CompressionWebpackPlugin({
+      filename: '[path].gz[query]',
+      // 算法 默认gzip
+      algorithm: 'gzip',
+      // 针对文件的正则表达式规则，符合规则的文件被压缩
+      test: new RegExp('\\.(' + config.pro.productionGzipExtensions.join('|') + ')$'),
+      // 文件大于这个值的会被压缩
+      threshold: 10240,
+      // 压缩率 默认0.8
+      minRatio: 0.8
+    })
+  )
+}
+
+// bundle 分析 analyzer
+if (config.pro.bundleAnalyzerReport) {
+  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+  proConfig.plugins.push(new BundleAnalyzerPlugin())
+}
+
+module.exports = proConfig;
