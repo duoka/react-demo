@@ -7,7 +7,7 @@ const SRC_PATH  = path.resolve(__dirname, '../src');
 module.exports = {
   // 入口
   entry: {
-    src: path.join(SRC_PATH, 'index.js'),
+    src: path.join(SRC_PATH, 'main.js'),
     framework:['react','react-dom'],
   },
   // 出口
