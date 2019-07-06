@@ -24,6 +24,7 @@ module.exports = {
       {
         test: /\.js?$/,
         use: "babel-loader",
+        exclude: /(node_modules|bower_components)/,
         include: SRC_PATH
       },
       // 编译css
@@ -35,7 +36,7 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              modules: true,
+              importLoaders: 1,
               localIdentName: '[path][local]__[hash:7]'
             }
           },
@@ -52,12 +53,15 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              modules: true,
+              importLoaders: 1,
               localIdentName: '[path][local]__[hash:7]'
             }
           },
           {
-            loader: 'less-loader'
+            loader: 'less-loader',
+            options: {
+              javascriptEnabled: true
+            }
           },
           {
             loader: 'postcss-loader'
@@ -72,7 +76,7 @@ module.exports = {
             loader: 'url-loader',
             options: {
               limit: 8192,
-              name: 'img/[name].[ext]'
+              name: 'images/[name].[ext]'
             },
           },
         ],
@@ -85,7 +89,7 @@ module.exports = {
             loader: 'url-loader',
             options: {
               limit: 8192,
-              name: 'font/[name].[ext]'
+              name: 'fonts/[name].[ext]'
             },
           },
         ],

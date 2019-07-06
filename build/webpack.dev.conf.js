@@ -29,9 +29,9 @@ module.exports = merge(baseWebpackConfig, {
   devServer: {
     host: config.dev.host,
     port: config.dev.port,
+    historyApiFallback: true,
     contentBase: path.join(__dirname, '../src'),
     compress: true,
-    historyApiFallback: true,
     hot: true,
     https: false,
     noInfo: true,

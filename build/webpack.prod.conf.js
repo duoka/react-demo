@@ -1,5 +1,6 @@
-const config=require('../config');
-const utils=require('./utils');
+const config = require('../config');
+const utils = require('./utils');
+const path = require('path');
 const merge = require('webpack-merge');
 const webpackBaseConfig = require('./webpack.base.conf');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -7,6 +8,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin'); // 拷贝
 
 const proConfig = merge(webpackBaseConfig, {
   mode: 'production',
@@ -71,12 +73,18 @@ const proConfig = merge(webpackBaseConfig, {
       filename: utils.assetsPath('css/[name].[hash].css'),
       chunkFilename: utils.assetsPath('css/[id].[hash].css'),
     }),
+    new CopyWebpackPlugin([
+      {
+        from: path.join(__dirname, '../src/static'), // 打包的静态资源目录地址
+        to: './static' // 打包到dist下面的static
+      }
+    ])
   ]
 });
 
 // 压缩文件
 if (config.pro.productionGzip) {
-  const CompressionWebpackPlugin = require('compression-webpack-plugin')
+  const CompressionWebpackPlugin = require('compression-webpack-plugin');
 
   proConfig.plugins.push(
     new CompressionWebpackPlugin({
