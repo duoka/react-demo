@@ -1,6 +1,6 @@
-import React from 'react'
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
-import './index.less';
+import React                                    from "react"
+import { Form, Icon, Input, Button, Checkbox }  from "antd";
+import "./index.less";
 
 class Login extends React.Component {
   constructor(props) {
@@ -19,7 +19,8 @@ class Login extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-        <Form onSubmit={this.handleSubmit} className="login-form">
+      <div className="login-container">
+        <Form onSubmit={this.handleSubmit} className="content">
           <Form.Item>
             {getFieldDecorator('username', {
               rules: [
@@ -29,8 +30,8 @@ class Login extends React.Component {
               ],
             })(
                 <Input
-                  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  placeholder="请输入用户名"
+                    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    placeholder="请输入用户名"
                 />,
             )}
           </Form.Item>
@@ -62,6 +63,7 @@ class Login extends React.Component {
             </Button>
           </Form.Item>
         </Form>
+      </div>
     );
   }
 }

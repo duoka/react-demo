@@ -18,6 +18,15 @@ module.exports = {
       ? config.pro.assetsPublicPath
       : config.dev.assetsPublicPath
   },
+  resolve: {
+    alias: {
+      components: path.resolve(__dirname, '../src/components'),
+      containers: path.resolve(__dirname, '../src/containers'),
+      redux: path.resolve(__dirname, '../src/redux'),
+      router: path.resolve(__dirname, '../src/router'),
+      utils: path.resolve(__dirname, '../src/utils'),
+    }
+  },
   module: {
     rules: [
       // 转译为ES5
